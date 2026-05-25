@@ -36,7 +36,7 @@ Built and validated on a production SaaS codebase (65 brain files + 55 memory fi
 ## Install
 
 ```
-/install super-mem
+/install-plugin tomererez/super-mem
 ```
 
 ## Quick Start

@@ -74,6 +74,7 @@ After collecting answers, create the directory structure. Read template content 
 **Always created (base):**
 ```
 docs/brain/
+  project-overview.md    <- from references/templates/base/project-overview.md
   status.md              <- from references/templates/base/status.md
   decisions.md           <- from references/templates/base/decisions.md
   current-focus.md       <- from references/templates/base/current-focus.md
@@ -90,10 +91,10 @@ docs/brain/
 
 1. Read `scripts/context-loader-template.js` from this skill's directory
 2. Replace these placeholders with actual values:
-   - `__PROJECT_ROOT__` - absolute path to project root (use forward slashes on all platforms)
+   - `__PROJECT_ROOT__` - absolute path to project root, using the OS-native separator (backslashes on Windows, forward slashes on macOS/Linux)
    - `__PROJECT_NAME__` - project name from step 1
    - `__BRAIN_DIR__` - relative path from project root to brain (default: `docs/brain`)
-   - `__MEMORY_DIR__` - Claude's auto-memory directory for this project. Find it at `~/.claude/projects/` - look for a directory whose name contains the project root path (lowercased, separators replaced with dashes). The memory dir is `<that-dir>/memory/`.
+   - `__MEMORY_DIR__` - Claude's auto-memory directory for this project. To find it: list directories under `~/.claude/projects/`, find the one whose name is the project root path with colons, slashes, and backslashes replaced by dashes (e.g., `C:\Users\me\my-app` becomes `c--Users-me-my-app`). The memory dir is `<that-dir>/memory/`. If it doesn't exist yet, use the computed path anyway - the hook handles missing directories gracefully.
 3. Write the customized hook to `~/.claude/hooks/<project-name>-context-loader.js`
 
 ### Register the hook
@@ -157,10 +158,10 @@ When the user says "session start":
 When the user says "session end":
 
 1. Determine today's date (YYYY-MM-DD) and current time (HH:MM)
-2. Find or create today's daily file at `docs/brain/daily/YYYY-MM-DD.md`
-3. Check what session number this is by counting `#### Session N` entries in the file
+2. Read today's daily file at `docs/brain/daily/YYYY-MM-DD.md`
+3. Find the last `#### Session N | HH:MM` entry (the one the hook auto-created at session start)
 4. Check git status and recent commits for the summary
-5. Append a session summary:
+5. **Edit** that existing entry - replace the header with a time range and add the summary content below it. Do NOT create a duplicate header:
 
 ```markdown
 #### Session N | HH:MM-HH:MM
@@ -172,6 +173,8 @@ When the user says "session end":
 **Open:** unfinished items
 **Decisions:** key decisions with reasoning
 ```
+
+The hook already created `#### Session N | HH:MM` - you're completing it with the end time and summary content.
 
 ### Repeat "session end" in same session
 

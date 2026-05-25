@@ -34,6 +34,7 @@ A structured markdown knowledge base. Organized by topic:
 
 ```
 docs/brain/
+  project-overview.md    # What this project is
   status.md              # Current project state
   decisions.md           # Append-only decision log
   current-focus.md       # What we're working on now
@@ -75,9 +76,6 @@ One file per day, accumulates session summaries:
 ```markdown
 # Daily Log 2026-05-25
 
-#### Session 1 | 09:00
-... (auto-appended by hook)
-
 #### Session 1 | 09:00-10:30
 **Topics:** auth, API
 - Implemented JWT refresh
@@ -88,8 +86,10 @@ One file per day, accumulates session summaries:
 **Decisions:** chose refresh tokens over session extension
 
 #### Session 2 | 11:00
-... (auto-appended by hook for session 2)
+(hook auto-appends this header; Claude fills in the summary at "session end")
 ```
+
+How it flows: the hook creates `#### Session 1 | 09:00` when the session starts. When the user says "session end", Claude edits that line to `#### Session 1 | 09:00-10:30` and adds the summary content below it.
 
 ## Manual Setup
 
@@ -101,7 +101,7 @@ If the `/super-mem setup` command isn't available, follow these steps:
 mkdir -p docs/brain/daily
 ```
 
-Create at minimum: `status.md`, `decisions.md`, `current-focus.md`.
+Create at minimum: `project-overview.md`, `status.md`, `decisions.md`, `current-focus.md`.
 
 ### Step 2: Copy and customize the hook
 
