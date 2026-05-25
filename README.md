@@ -1,6 +1,10 @@
-# super-mem
+<p align="center">
+  <img src="assets/logo.png" alt="super-mem" width="300">
+</p>
 
-Persistent cross-session context loading + daily work logging for Claude Code.
+<h1 align="center">super-mem</h1>
+
+<p align="center">Persistent cross-session context loading + daily work logging for Claude Code.</p>
 
 ## What it does
 
